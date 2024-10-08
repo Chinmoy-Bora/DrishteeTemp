@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "Drishtee",
+    "slug": "DrishteeApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/DrishteeLogo.png",
+    "userInterfaceStyle": "light",
+    "scheme": "com.kamalesh05.DrishteeApp",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kamalesh05.DrishteeApp",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs access to the camera to take photos.",
+        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to provide location-based services.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to select and upload images.",
+        "NSPhotoLibraryAddUsageDescription": "This app needs permission to save photos to your library.",
+        "NSMicrophoneUsageDescription": "This app needs access to the microphone for voice input.",
+        "NSMotionUsageDescription": "This app needs access to motion and fitness data."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/DrishteeLogo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "INTERNET",
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_COARSE_LOCATION",
+        "RECORD_AUDIO",
+        "USE_FINGERPRINT",
+        "VIBRATE"
+      ],
+      "package": "com.kamalesh05.DrishteeApp"
+    },
+    "web": {
+      "favicon": "./assets/DrishteeLogo.png"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-secure-store"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "db533920-b12b-41ed-82e0-1367db64a663"
+      }
+    }
+  }
+}
