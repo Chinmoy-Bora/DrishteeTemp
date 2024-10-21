@@ -26,13 +26,53 @@ import ViewExpenseScreen from './src/screens/Expense/ViewExpenses/ViewExpenseScr
 import StatisticsScreen from './src/screens/Expense/Statistics/StatisticsScreen';
 import ReportScreen from './src/screens/Expense/Reports/ReportScreen';
 import FormScreen from './src/screens/CSP/FormScreen';
+import { useSelector } from 'react-redux';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = ({ initialRoute }) => {
+
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  
+  console.log(isAuthenticated);
   return (
     <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={LoginScreen} />
+
+{isAuthenticated ? (
+        
+        <>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Tab" component={TabBar} />
+      <Stack.Screen name="Expense" component={ExpenseBaseScreen} />
+      <Stack.Screen name="LocalConveyance" component={LocalConveyanceScreen} />
+      <Stack.Screen name="LocalConveyanceForm" component={LocalConveyanceForm} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="CSP" component={CSPScreen} />
+      <Stack.Screen name="ChooseCSP" component={ChooseCSP} />
+      <Stack.Screen name="OtherExpense" component={OtherExpenseScreen} />
+      <Stack.Screen name="OtherExpenseForm" component={OtherExpenseForm} />
+      <Stack.Screen name="TravelExpense" component={TravelEpenseScreen} />
+      <Stack.Screen name="TravelExpenseForm" component={TravelExpenseForm} />
+      <Stack.Screen name="OfficeExpense" component={OfficeExpenseScreen} />
+      <Stack.Screen name="OfficeExpenseForm" component={OfficeExpenseForm} />
+      <Stack.Screen name="Attendance" component={AttendanceScreen} />
+      <Stack.Screen name="TourList" component={TourListScreen} />
+      <Stack.Screen name="TourListConveyance" component={ConveyanceForm} />
+      <Stack.Screen name="FoodExpense" component={FoodExpenseFrom} />
+      <Stack.Screen name="AccommodationForm" component={AccommodationForm} />
+      <Stack.Screen name="TravelOtherExpense" component={TravelOtherExpenseForm} />
+      <Stack.Screen name="ViewExpense" component={ViewExpenseScreen} />
+      <Stack.Screen name="Statistics" component={StatisticsScreen} />
+      <Stack.Screen name="Reports" component={ReportScreen} />
+      <Stack.Screen name="CSPForm" component={FormScreen} />
+          
+        </>
+      ) : (
+        // If not authenticated, show the login screen
+        <Stack.Screen name="Login" component={LoginScreen} />
+      )}
+
+      {/* <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Tab" component={TabBar} />
       <Stack.Screen name="Expense" component={ExpenseBaseScreen} />
       <Stack.Screen name="LocalConveyance" component={LocalConveyanceScreen} />
@@ -56,7 +96,7 @@ const AppNavigator = ({ initialRoute }) => {
       <Stack.Screen name="ViewExpense" component={ViewExpenseScreen} />
       <Stack.Screen name="Statistics" component={StatisticsScreen} />
       <Stack.Screen name="Reports" component={ReportScreen} />
-      <Stack.Screen name="CSPForm" component={FormScreen} />
+      <Stack.Screen name="CSPForm" component={FormScreen} /> */}
     </Stack.Navigator>
   );
 };

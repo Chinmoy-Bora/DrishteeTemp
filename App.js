@@ -1,35 +1,39 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import FontLoader from './src/components/FontLoader';
 import SplashScreen from './src/screens/SplashScreen/SplashScreen';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
-import { Camera } from 'expo-camera'; // Correct import
+import { Camera } from 'expo-camera'; 
 import * as MediaLibrary from 'expo-media-library';
 import AppNavigator from './appNavigator';
+import { store, persistor } from './src/store/store'; 
 
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
-  const [initialRoute, setInitialRoute] = useState('Login'); // Default is login
+  const [initialRoute, setInitialRoute] = useState('Login'); 
 
   const requestPermissions = async () => {
     try {
-      // Request Camera Permission
-      const { status: cameraStatus } = await Camera.requestCameraPermissionsAsync(); // Correct method
+      const permissions = await Promise.all([
+        Camera.requestCameraPermissionsAsync(),
+        Location.requestForegroundPermissionsAsync(),
+        MediaLibrary.requestPermissionsAsync(),
+      ]);
+
+      const cameraStatus = permissions[0].status;
+      const locationStatus = permissions[1].status;
+      const mediaStatus = permissions[2].status;
+
       if (cameraStatus !== 'granted') {
         alert('Camera permission is required.');
       }
-
-      // Request Foreground Location Permission
-      const { status: locationStatus } = await Location.requestForegroundPermissionsAsync(); // Updated method
       if (locationStatus !== 'granted') {
         alert('Location permission is required.');
       }
-
-      // Request Media Library Permission (for file storage)
-      const { status: mediaStatus } = await MediaLibrary.requestPermissionsAsync();
       if (mediaStatus !== 'granted') {
         alert('Storage permission is required.');
       }
@@ -40,15 +44,15 @@ export default function App() {
 
   const prepareApp = async () => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate loading time
-      await requestPermissions(); // Request necessary permissions
+      await new Promise(resolve => setTimeout(resolve, 3000)); 
+      await requestPermissions(); 
 
-      // Check if user data is present
+    
       const userData = await SecureStore.getItemAsync('DrishteeuserData');
       if (userData) {
-        setInitialRoute('Tab'); // If logged in, go to main tab
+        setInitialRoute('Tab'); 
       } else {
-        setInitialRoute('Login'); // Else go to login
+        setInitialRoute('Login'); 
       }
     } catch (error) {
       console.error('Failed to load resources or user data:', error);
@@ -70,12 +74,16 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <FontLoader>
-          <AppNavigator initialRoute={initialRoute} />
-        </FontLoader>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <NavigationContainer>
+            <FontLoader>
+              <AppNavigator initialRoute={initialRoute} />
+            </FontLoader>
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </PersistGate>
+    </Provider>
   );
 }

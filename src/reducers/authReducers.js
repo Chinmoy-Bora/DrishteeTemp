@@ -1,7 +1,7 @@
 import { LOGIN_SUCCESS, LOGOUT } from '../actions/authActions';
 
 const initialState = {
-  isLoggedIn: false,
+  isAuthenticated: false,
   userData: null,
 };
 
@@ -10,13 +10,13 @@ const authReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        isLoggedIn: true,
+        isAuthenticated: true,
         userData: action.payload,
       };
     case LOGOUT:
       return {
         ...state,
-        isLoggedIn: false,
+        isAuthenticated: false,
         userData: null,
       };
     default:

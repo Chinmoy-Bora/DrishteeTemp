@@ -3,7 +3,7 @@ import { BASE_URL, LOGIN_API, SYSTEMLOGIN_URL, GETDESIGNATION_URL, TOKEN, FCMID 
 import { checkNetworkConnectivity } from '../utils/network';
 import * as SecureStore from 'expo-secure-store';
 import { store } from '../store/store';
-import { loginSuccess, logoutSuccess } from '../actions/authActions'; // Redux actions for login and logout
+import { loginSuccess, logout } from '../actions/authActions'; // Redux actions for login and logout
 
 // Function to perform login
 const performLogin = async (email, password) => {
@@ -91,7 +91,7 @@ export const handleLogout = async () => {
     await SecureStore.deleteItemAsync('DrishteeuserData');
 
     // Dispatch logout action to clear Redux store
-    store.dispatch(logoutSuccess());
+    store.dispatch(logout());
 
     return { success: true };
   } catch (error) {

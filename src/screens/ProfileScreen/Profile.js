@@ -3,7 +3,8 @@ import { View, Image, Text, Alert } from "react-native";
 import styles from "./ProfileStyle";
 import * as SecureStore from "expo-secure-store";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import CustomButton1 from "../../components/CustomButton1"
+import CustomButton1 from "../../components/CustomButton1";
+import { handleLogout } from "../../services/authServices";
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -42,14 +43,26 @@ const ProfileScreen = ({ navigation }) => {
         });
       };
     
-      const handleLogout = async () => {
+      const handleLogoutPress = async () => {
         const userConfirmed = await showLogoutConfirmation();
         if(userConfirmed){
-          await SecureStore.deleteItemAsync("userData");
-          navigation.replace("Login");
+            try
+            {
+                const result = handleLogout();
+                if(result.success)
+                {
+                    navigation.replace("Login");
+                }
+            }
+            catch
+            {
+                console.error(error||"Failed");
+            }
+         
         }
-      };
-
+    };
+    
+    
     return (
         <View style={styles.container}>
 
@@ -82,7 +95,7 @@ const ProfileScreen = ({ navigation }) => {
                         <View style={styles.textarea}>
                             <Text style={styles.text}>{userData.rhq_name}</Text>
                         </View>)}
-                        <CustomButton1 title="Logout" onPress={handleLogout}/>
+                        <CustomButton1 title="Logout" onPress={handleLogoutPress}/>
                     </View>
                 </View>
             )}

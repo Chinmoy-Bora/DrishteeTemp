@@ -1,0 +1,5 @@
+node_modules
+eas.json
+docs/
+tests/
+README.md
